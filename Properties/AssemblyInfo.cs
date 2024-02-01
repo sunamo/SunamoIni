@@ -1,3 +1,5 @@
+namespace SunamoIni.Properties;
+
 //namespace SunamoIni.Properties;
 
 //[assembly: AssemblyTitle("SunamoIni")]
