@@ -84,9 +84,9 @@ public class IniFile
         return temp.ToString();
     }
 
-    public static IniFile InStartupPath()
+    public static IniFile InStartupPath(string iniFilePath)
     {
         // TODO: Balíček byl nekompatibilní s netstd, nainstalovat nový a odkomentovat
-        return new IniFile(AppPaths.GetFileInStartupPath(ThisApp.Name + ".ini"));
+        return new IniFile(iniFilePath);
     }
 }
