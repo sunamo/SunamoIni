@@ -1,4 +1,4 @@
-namespace SunamoIni.Properties;
+namespace SunamoIni;
 
 //namespace SunamoIni.Properties;
 
