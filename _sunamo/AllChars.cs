@@ -1,3 +1,5 @@
+
+namespace SunamoIni;
 public class AllChars
 {
     public static List<char> vsZnakyWithoutSpecial;

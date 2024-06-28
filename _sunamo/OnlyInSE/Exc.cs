@@ -1,3 +1,5 @@
+
+namespace SunamoIni;
 using System.Diagnostics;
 using System.Text;
 
