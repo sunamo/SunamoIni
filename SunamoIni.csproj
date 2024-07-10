@@ -11,9 +11,10 @@
     <RepositoryUrl>https://github.com/sunamo/SunamoIni.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>DEBUG2;DEBUG;TRACE;ASYNC;SunamoIni</DefineConstants>
+    <DefineConstants>DEBUG2;DEBUG;TRACE;ASYNC;SunamoIni;SunamoIni.csproj</DefineConstants>
     <CodeAnalysisRuleSet>../../sunamo/sunamo.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -33,11 +34,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="sharpconfig" Version="3.2.9.1" />
+    <None Include="readme.md" Pack="True" PackagePath="." />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ASYNC;SunamoIni</DefineConstants>
+    <DefineConstants>$(DefineConstants);ASYNC;SunamoIni;SunamoIni.csproj</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ASYNC;SunamoIni</DefineConstants>
+    <DefineConstants>$(DefineConstants);ASYNC;SunamoIni;SunamoIni.csproj</DefineConstants>
   </PropertyGroup>
 </Project>
