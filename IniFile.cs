@@ -1,24 +1,15 @@
+using SharpConfig;
+
 namespace SunamoIni;
 
 /// <summary>
-/// Create a New INI file to store or load data
+///     Create a New INI file to store or load data
 /// </summary>
 public class IniFile
 {
-    public string path;
-
-    //IniParser ip = null;
-    [DllImport("kernel32")]
-    private static extern long WritePrivateProfileString(string section,
-        string key, string val, string filePath);
-    [DllImport("kernel32")]
-    private static extern int GetPrivateProfileString(string section,
-             string key, string def, StringBuilder retVal,
-        int size, string filePath);
-
     // TODO: Balíček byl nekompatibilní s netstd, nainstalovat nový a odkomentovat
-    SharpConfig.Configuration conf = null;
-
+    private readonly Configuration conf;
+    public string path;
 
 
     public IniFile(string INIPath)
@@ -27,27 +18,36 @@ public class IniFile
         //ip = new IniParser(path);
         try
         {
-            conf = SharpConfig.Configuration.LoadFromFile(path);
+            conf = Configuration.LoadFromFile(path);
         }
         catch (Exception ex)
         {
-
         }
     }
 
+    //IniParser ip = null;
+    [DllImport("kernel32")]
+    private static extern long WritePrivateProfileString(string section,
+        string key, string val, string filePath);
+
+    [DllImport("kernel32")]
+    private static extern int GetPrivateProfileString(string section,
+        string key, string def, StringBuilder retVal,
+        int size, string filePath);
+
     /// <summary>
-    /// Zápis probíhá jen pomocí W32 metod, tam pokud vím se s tím ještě nevyskytly problémy
+    ///     Zápis probíhá jen pomocí W32 metod, tam pokud vím se s tím ještě nevyskytly problémy
     /// </summary>
     /// <param name="Section"></param>
     /// <param name="Key"></param>
     /// <param name="Value"></param>
     public void IniWriteValue(string Section, string Key, string Value)
     {
-        WritePrivateProfileString(Section, Key, Value, this.path);
+        WritePrivateProfileString(Section, Key, Value, path);
     }
 
     /// <summary>
-    /// Vždy používá sharp config, předtím vždy používala W32 metody
+    ///     Vždy používá sharp config, předtím vždy používala W32 metody
     /// </summary>
     /// <param name="Section"></param>
     /// <param name="Key"></param>
@@ -62,7 +62,7 @@ public class IniFile
     }
 
     /// <summary>
-    /// A1 zda se má použít SharpConfig
+    ///     A1 zda se má použít SharpConfig
     /// </summary>
     /// <param name="useIniParser"></param>
     /// <param name="Section"></param>
@@ -72,15 +72,13 @@ public class IniFile
         if (useIniParser)
         {
             // TODO: Balíček byl nekompatibilní s netstd, nainstalovat nový a odkomentovat
-            if (conf != null)
-            {
-                return conf[Section][Key].StringValue;
-            }
+            if (conf != null) return conf[Section][Key].StringValue;
             return "";
         }
-        StringBuilder temp = new StringBuilder(255);
-        int i = GetPrivateProfileString(Section, Key, "", temp,
-                                        int.MaxValue, this.path);
+
+        var temp = new StringBuilder(255);
+        var i = GetPrivateProfileString(Section, Key, "", temp,
+            int.MaxValue, path);
         return temp.ToString();
     }
 
