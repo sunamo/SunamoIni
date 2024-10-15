@@ -1,6 +1,5 @@
-using SharpConfig;
-
 namespace SunamoIni;
+using SharpConfig;
 
 /// <summary>
 ///     Create a New INI file to store or load data
