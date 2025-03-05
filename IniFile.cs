@@ -1,5 +1,4 @@
 namespace SunamoIni;
-using SharpConfig;
 
 /// <summary>
 ///     Create a New INI file to store or load data
@@ -9,8 +8,6 @@ public class IniFile
     // TODO: Balíček byl nekompatibilní s netstd, nainstalovat nový a odkomentovat
     private readonly Configuration conf;
     public string path;
-
-
     public IniFile(string INIPath)
     {
         path = INIPath;
@@ -23,17 +20,14 @@ public class IniFile
         {
         }
     }
-
     //IniParser ip = null;
     [DllImport("kernel32")]
     private static extern long WritePrivateProfileString(string section,
         string key, string val, string filePath);
-
     [DllImport("kernel32")]
     private static extern int GetPrivateProfileString(string section,
         string key, string def, StringBuilder retVal,
         int size, string filePath);
-
     /// <summary>
     ///     Zápis probíhá jen pomocí W32 metod, tam pokud vím se s tím ještě nevyskytly problémy
     /// </summary>
@@ -44,7 +38,6 @@ public class IniFile
     {
         WritePrivateProfileString(Section, Key, Value, path);
     }
-
     /// <summary>
     ///     Vždy používá sharp config, předtím vždy používala W32 metody
     /// </summary>
@@ -54,12 +47,10 @@ public class IniFile
     {
         return IniReadValue(true, Section, Key);
     }
-
     public string IniReadValueSharpConfig(string Section, string Key)
     {
         return IniReadValue(true, Section, Key);
     }
-
     /// <summary>
     ///     A1 zda se má použít SharpConfig
     /// </summary>
@@ -74,13 +65,11 @@ public class IniFile
             if (conf != null) return conf[Section][Key].StringValue;
             return "";
         }
-
         var temp = new StringBuilder(255);
         var i = GetPrivateProfileString(Section, Key, "", temp,
             int.MaxValue, path);
         return temp.ToString();
     }
-
     public static IniFile InStartupPath(string iniFilePath)
     {
         // TODO: Balíček byl nekompatibilní s netstd, nainstalovat nový a odkomentovat

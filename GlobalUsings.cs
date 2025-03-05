@@ -12,3 +12,8 @@ global using System.Net;
 global using System.Diagnostics.CodeAnalysis;
 global using SunamoIni;
 global using SunamoIni._sunamo;
+
+global using SharpConfig;
+global using ILogger = Microsoft.Extensions.Logging.ILogger;
+global using Microsoft.Extensions.Logging;
+global using NullLogger = Microsoft.Extensions.Logging.Abstractions.NullLogger;
