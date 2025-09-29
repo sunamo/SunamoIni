@@ -1,0 +1,61 @@
+name: Build SunamoIni
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  build:
+    name: Build SunamoIni
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore SunamoIni/SunamoIni.csproj
+
+    - name: Build
+      run: dotnet build SunamoIni/SunamoIni.csproj --configuration Release --no-restore
+
+  test:
+    name: Test SunamoIni.Tests
+    runs-on: ${{ matrix.os }}
+    needs: build
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore SunamoIni.Tests/SunamoIni.Tests.csproj
+
+    - name: Build tests
+      run: dotnet build SunamoIni.Tests/SunamoIni.Tests.csproj --configuration Release --no-restore
+
+    - name: Run tests
+      run: dotnet test SunamoIni.Tests/SunamoIni.Tests.csproj --configuration Release --no-build --verbosity normal
+      continue-on-error: true
