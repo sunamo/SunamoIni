@@ -1,2 +1,4 @@
-﻿global using System;
+global using System;
 global using Xunit;
+
+global using SunamoIni;
