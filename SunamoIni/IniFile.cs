@@ -1,8 +1,7 @@
 namespace SunamoIni;
 
 /// <summary>
-/// EN: Create a New INI file to store or load data
-/// CZ: Vytvoří nový INI soubor pro ukládání nebo načítání dat
+/// Create a New INI file to store or load data
 /// </summary>
 public class IniFile
 {
@@ -10,16 +9,14 @@ public class IniFile
     private readonly Configuration? configuration;
 
     /// <summary>
-    /// EN: Path to the INI file
-    /// CZ: Cesta k INI souboru
+    /// Path to the INI file
     /// </summary>
     public string Path { get; set; }
 
     /// <summary>
-    /// EN: Initializes a new instance of the IniFile class
-    /// CZ: Inicializuje novou instanci třídy IniFile
+    /// Initializes a new instance of the IniFile class
     /// </summary>
-    /// <param name="iniPath">EN: Path to the INI file / CZ: Cesta k INI souboru</param>
+    /// <param name="iniPath">Path to the INI file</param>
     public IniFile(string iniPath)
     {
         Path = iniPath;
@@ -35,76 +32,71 @@ public class IniFile
 
     [DllImport("kernel32")]
     private static extern long WritePrivateProfileString(string section,
-        string key, string val, string filePath);
+        string key, string value, string filePath);
 
     [DllImport("kernel32")]
     private static extern int GetPrivateProfileString(string section,
-        string key, string def, StringBuilder retVal,
+        string key, string defaultValue, StringBuilder returnValue,
         int size, string filePath);
 
     /// <summary>
-    /// EN: Write value to INI file using Win32 methods
-    /// CZ: Zapíše hodnotu do INI souboru pomocí Win32 metod
+    /// Write value to INI file using Win32 methods
     /// </summary>
-    /// <param name="section">EN: Section name / CZ: Název sekce</param>
-    /// <param name="key">EN: Key name / CZ: Název klíče</param>
-    /// <param name="value">EN: Value to write / CZ: Hodnota k zapsání</param>
+    /// <param name="section">Section name</param>
+    /// <param name="key">Key name</param>
+    /// <param name="value">Value to write</param>
     public void IniWriteValue(string section, string key, string value)
     {
         WritePrivateProfileString(section, key, value, Path);
     }
 
     /// <summary>
-    /// EN: Read value from INI file, always uses SharpConfig if available
-    /// CZ: Načte hodnotu z INI souboru, vždy používá SharpConfig pokud je dostupný
+    /// Read value from INI file, always uses SharpConfig if available
     /// </summary>
-    /// <param name="section">EN: Section name / CZ: Název sekce</param>
-    /// <param name="key">EN: Key name / CZ: Název klíče</param>
-    /// <returns>EN: Value from INI file / CZ: Hodnota z INI souboru</returns>
+    /// <param name="section">Section name</param>
+    /// <param name="key">Key name</param>
+    /// <returns>Value from INI file</returns>
     public string IniReadValue(string section, string key)
     {
         return IniReadValue(true, section, key);
     }
 
     /// <summary>
-    /// EN: Read value from INI file using SharpConfig
-    /// CZ: Načte hodnotu z INI souboru pomocí SharpConfig
+    /// Read value from INI file using SharpConfig
     /// </summary>
-    /// <param name="section">EN: Section name / CZ: Název sekce</param>
-    /// <param name="key">EN: Key name / CZ: Název klíče</param>
-    /// <returns>EN: Value from INI file / CZ: Hodnota z INI souboru</returns>
+    /// <param name="section">Section name</param>
+    /// <param name="key">Key name</param>
+    /// <returns>Value from INI file</returns>
     public string IniReadValueSharpConfig(string section, string key)
     {
         return IniReadValue(true, section, key);
     }
 
     /// <summary>
-    /// EN: Read value from INI file with option to use SharpConfig or Win32 methods
-    /// CZ: Načte hodnotu z INI souboru s možností použít SharpConfig nebo Win32 metody
+    /// Read value from INI file with option to use SharpConfig or Win32 methods
     /// </summary>
-    /// <param name="useSharpConfig">EN: Whether to use SharpConfig library / CZ: Zda použít SharpConfig knihovnu</param>
-    /// <param name="section">EN: Section name / CZ: Název sekce</param>
-    /// <param name="key">EN: Key name / CZ: Název klíče</param>
-    /// <returns>EN: Value from INI file / CZ: Hodnota z INI souboru</returns>
-    public string IniReadValue(bool useSharpConfig, string section, string key)
+    /// <param name="isUsingSharpConfig">Whether to use SharpConfig library</param>
+    /// <param name="section">Section name</param>
+    /// <param name="key">Key name</param>
+    /// <returns>Value from INI file</returns>
+    public string IniReadValue(bool isUsingSharpConfig, string section, string key)
     {
-        if (useSharpConfig)
+        if (isUsingSharpConfig)
         {
             // TODO: Package was incompatible with netstandard, install new one and uncomment
             if (configuration != null) return configuration[section][key].StringValue;
             return "";
         }
-        var result = new StringBuilder(255);
-        GetPrivateProfileString(section, key, "", result, int.MaxValue, Path);
-        return result.ToString();
+        var stringBuilder = new StringBuilder(255);
+        GetPrivateProfileString(section, key, "", stringBuilder, int.MaxValue, Path);
+        return stringBuilder.ToString();
     }
 
     /// <summary>
-    /// EN: Creates an IniFile instance for the specified path
-    /// CZ: Vytvoří instanci IniFile pro zadanou cestu
+    /// Creates an IniFile instance for the specified path
     /// </summary>
-    /// <param name="iniFilePath">EN: Path to the INI file / CZ: Cesta k INI souboru</param>
-    /// <returns>EN: New IniFile instance / CZ: Nová instance IniFile</returns>
+    /// <param name="iniFilePath">Path to the INI file</param>
+    /// <returns>New IniFile instance</returns>
     public static IniFile InStartupPath(string iniFilePath)
     {
         // TODO: Package was incompatible with netstandard, install new one and uncomment

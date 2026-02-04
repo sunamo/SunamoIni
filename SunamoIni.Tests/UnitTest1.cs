@@ -1,14 +1,13 @@
+// variables names: ok
 namespace SunamoIni.Tests;
 
 /// <summary>
-/// EN: Unit tests for IniFile class
-/// CZ: Unit testy pro třídu IniFile
+/// Unit tests for IniFile class
 /// </summary>
 public class UnitTest1
 {
     /// <summary>
-    /// EN: Test writing and reading values from INI file
-    /// CZ: Test zápisu a čtení hodnot z INI souboru
+    /// Test writing and reading values from INI file
     /// </summary>
     [Fact]
     public void WriteIni()
