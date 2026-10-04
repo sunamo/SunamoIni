@@ -1,5 +1,10 @@
 # SunamoIni
 
+## Short description
+
+Knihovna pro práci se soubory .ini používanými ve Windows. Třída IniFile čte a zapisuje sekce a klíče. Obsahuje Runner a testy.
+
+
 Work with .ini files used in Windows
 
 ## Overview
